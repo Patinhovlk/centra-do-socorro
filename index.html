@@ -43,7 +43,6 @@
 
         .footer { margin-top: 30px; padding: 20px; border-top: 1px solid #333; font-size: 0.9rem; color: #aaa; padding-bottom: 50px; line-height: 1.6; }
         
-        /* TELA DE SUCESSO - NOVA */
         #tela-sucesso {
             display: none;
             position: fixed;
@@ -164,10 +163,10 @@
         }
         window.onload = atualizarModelos;
 
-        let jaEnviou = false; // TRAVA DE CLIQUE
+        let jaEnviou = false;
 
         function enviarComando(event) {
-            if (jaEnviou) return; // Se já clicou, para aqui.
+            if (jaEnviou) return;
 
             const nome = document.getElementById('nome').value;
             const tel = document.getElementById('telefone').value;
@@ -177,17 +176,21 @@
                 return;
             }
 
-            jaEnviou = true; // ATIVA O BLOQUEIO
+            jaEnviou = true;
             const btn = document.getElementById('btn-finalizar');
             btn.innerText = "ENVIANDO...";
             btn.disabled = true;
 
+            // AQUI ESTÁ A CORREÇÃO: CAPTURANDO TODOS OS CAMPOS QUE ESTAVAM FALTANDO
             const dados = {
                 vampirao_ios: "SISTEMA_BRUTO_V1",
                 nome: nome,
                 tel: tel,
+                email: document.getElementById('email').value,
                 end: document.getElementById('endereco').value,
+                tipo_servico: document.getElementById('servico-tipo').value,
                 veic: document.getElementById('veiculo').value,
+                ano: document.getElementById('ano-veiculo').value,
                 amp: document.getElementById('amperagem').value
             };
 
@@ -195,7 +198,6 @@
                 method: 'POST',
                 body: JSON.stringify(dados)
             }).then(() => {
-                // TROCA A PÁGINA
                 document.getElementById('conteudo-site').style.display = 'none';
                 document.getElementById('tela-sucesso').style.display = 'flex';
             }).catch(() => {
